@@ -1,4 +1,4 @@
-# Workshop
+# Workflow
 
 ```mermaid
 sequenceDiagram
