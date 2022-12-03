@@ -1,34 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Workflow
 
-## Getting Started
+```mermaid
+sequenceDiagram
+	participant U 	as User
+	participant F 	as Frontend
+	participant M 	as Metamask(Snap)
+	participant VC 	as Vote-Contract
+	participant NC 	as NFT-Contract
+	
+  U -->> F : click "connect"
+  F -->> M : install snap to metamask
 
-First, run the development server:
+  U -->> F : click "Create Group (name, desc, icon asset(nft/token) request, asset address)"
+  F -->> VC : Create Group Tx
+  VC -->> F : Group ID
 
-```bash
-npm run dev
-# or
-yarn dev
+  U -->> F : click "Join Group"
+	rect rgba(0, 220, 220, .3)
+    M -->> F : generate identity
+  end
+  F -->> VC : "add member(identity)" in group
+  VC -->> NC : check asset demand
+
+  U -->> F : Click "Vote" with "Msg m" In "Group g"
+  F -->> M : run snarkjs prove zkp
+	rect rgba(0, 220, 220, .3)
+    M -->> M : generate identity
+    M -->> M : generate rc
+    M -->> M : generate Group Proof, with "Group Merkle Proof"
+    M -->> M : generate Signal Proof 
+  end
+  F -->> VC : verity(rc, group proof, signal proof)
+  F -->> VC : check "Vote Stats"
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
