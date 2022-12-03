@@ -1,0 +1,42 @@
+import { Divider, Steps } from 'antd';
+import React from 'react';
+const CreationSteps: React.FC<{step:number, setStep: (value: number) => void}> = ({step, setStep}) => (
+  <>
+    <Steps
+      className='flex justify-center  font-mono'
+      current={step}
+      onChange={(c) => {setStep(c)}}
+      labelPlacement="vertical"
+      items={[
+        {
+          title: 'Details',
+          icon: <img src={'/icons/step1.png'} width={40} />,
+          style: {
+            flexDirection: 'column', // stack the icon and title vertically
+            alignItems: 'center' // center the icon and title within the step item
+          }
+        },
+        {
+          title: 'Visibility',
+          icon: <img src={'/icons/step2.png'} width={40} />,
+        },
+        {
+          title: 'Token Setup',
+          icon: <img src={'/icons/step3.png'} width={40} />,
+        },
+        {
+          title: 'Step4',
+          icon: <img src={'/icons/step4.png'} width={40} />,
+        },
+        {
+           title: 'Step5',
+           icon: <img src={'/icons/step5.png'} width={40} />,
+        }
+ 
+      ]}
+    />
+   
+  </>
+);
+
+export default CreationSteps;

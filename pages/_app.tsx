@@ -1,6 +1,66 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "@rainbow-me/rainbowkit/styles.css";
+import type { AppProps } from "next/app";
+import Layout from "../components/layout";
+import "tailwindcss/tailwind.css";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import {
+  RainbowKitProvider,
+  getDefaultWallets,
+  connectorsForWallets,
+} from "@rainbow-me/rainbowkit";
+import {
+  argentWallet,
+  trustWallet,
+  ledgerWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+
+// const apiKey:string = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!;
+// console.log(apiKey);
+const { chains, provider, webSocketProvider } = configureChains(
+  [chain.optimismGoerli],
+  [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY})]
+);
+
+const { wallets } = getDefaultWallets({
+  appName: "RainbowKit demo",
+  chains,
+});
+
+const demoAppInfo = {
+  appName: "Rainbowkit Demo",
+};
+
+const connectors = connectorsForWallets([
+  ...wallets,
+  {
+    groupName: "Other",
+    wallets: [
+      argentWallet({ chains }),
+      trustWallet({ chains }),
+      ledgerWallet({ chains }),
+    ],
+  },
+]);
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider,
+  webSocketProvider,
+});
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </RainbowKitProvider>
+        </WagmiConfig>
+  );
 }
+
+export default MyApp;
