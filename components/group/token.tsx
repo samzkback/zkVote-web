@@ -10,11 +10,14 @@ const TokenSetup = ({ register }: {register: any} ) => {
         <input
           placeholder='Import Token Contract Address...'
           type="text"
-          id="projectName"
+          id="tokenAddress"
           className="w-full text-lg border border-2 border-black font-mono placeholder:text-lg placeholder:italic py-4 px-4  block bg-white  focus:ring-indigo-500 focus:border-indigo-500"
-          {...register("projectName")}
+          {...register("tokenAddress")}
         />
       </div>
+      <button>
+        <img className=" mt-4 mr-4 w-3/4" src="/create/create.png" />
+      </button>
 
     </div>
 

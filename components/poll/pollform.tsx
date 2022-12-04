@@ -1,28 +1,28 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { UseFormRegister } from "react-hook-form";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Link from "next/link";
 
-interface CreateProjectFormInputs {
-    supervisors: string[];
-    stakeAmount: string;
-    unreturnedStakeBeneficiaries: string[];
-    returnWindowDays: string;
-    maxParticipants: string;
-    shouldParticipantsShareUnreturnedStake: boolean;
-    shouldUseSupervisorInactionGuard: boolean;
-    projectName: string;
-    projectDescription: string;
-    image: any;
+interface CreatePollFormInputs {
+    choices: string[];
+    title: string;
+    description: string;
+    startDate: Date;
+    endDate: Date;
   }
 
 const PollForm:React.FC<{
-    supervisors:string[], 
-    register: UseFormRegister<CreateProjectFormInputs>,
-
-    setElemAtIndex: (index: number, event: ChangeEvent<HTMLInputElement>,formKey: keyof CreateProjectFormInputs,formVal: string[] ) => void,
-    removeElemAtIndex: (index: number, event: any, formKey: keyof CreateProjectFormInputs, formVal: string[]) => void,
-    addNewElem: (event: any, formKey: keyof CreateProjectFormInputs,formVal: string[]) => void
-    }>= ({register, supervisors, setElemAtIndex, removeElemAtIndex, addNewElem}) => (
+    groupId: string;
+    setValue: UseFormSetValue<CreatePollFormInputs>;
+    startDate: any;
+    endDate: any;
+    choices:string[], 
+    register: UseFormRegister<CreatePollFormInputs>,
+    setElemAtIndex: (index: number, event: ChangeEvent<HTMLInputElement>,formKey: keyof CreatePollFormInputs,formVal: string[] ) => void,
+    removeElemAtIndex: (index: number, event: any, formKey: keyof CreatePollFormInputs, formVal: string[]) => void,
+    addNewElem: (event: any, formKey: keyof CreatePollFormInputs,formVal: string[]) => void,
+    }>= ({groupId, setValue, startDate, endDate, choices, register, setElemAtIndex, removeElemAtIndex, addNewElem}) => (
 
     <>
       <div className="bg-white border border-2 rounded-3xl border-black py-6 px-6 w-full">
@@ -32,7 +32,7 @@ const PollForm:React.FC<{
           type="text"
           id="projectName"
           className="w-full text-lg border border-2 border-black font-bold placeholder:text-lg placeholder:font-bold py-4 px-4  block bg-white  focus:ring-indigo-500 focus:border-indigo-500"
-          {...register("projectName")}
+          {...register("title")}
         />
       </div>
 
@@ -42,19 +42,15 @@ const PollForm:React.FC<{
       rows={5}
       id="description"
       className="w-full text-lg border border-2 border-black font-bold placeholder:text-lg placeholder:font-bold py-4 px-4  block bg-white  focus:ring-indigo-500 focus:border-indigo-500"
-      {...register("projectDescription")}
+      {...register("description")}
     />
   </div>   
   
 
   <p className='font-mono text-lg font-bold'>Choices*</p>
-
-
-
-
       <table className=" flex justify-center">
   <tbody>
-    {supervisors.map((supervisor, idx) => (
+    {choices.map((choice, idx) => (
       <tr key={idx}>
         <td>
           <div className="flex mt-2">
@@ -62,14 +58,14 @@ const PollForm:React.FC<{
               type="text"
               name="stake"
               id="stake"
-              value={supervisor}
+              value={choice}
               className="text-[#4A2222] text-lg font-bold placeholder:text-lg placeholder:font-bold py-4 px-4  block max-w-lg w-full bg-white rounded-l-xl border-r-0 focus:ring-indigo-500 focus:border-indigo-500  border border-black border-2"
               onChange={(e) =>
                 setElemAtIndex(
                   idx,
                   e,
-                  "supervisors",
-                  supervisors
+                  "choices",
+                  choices
                 )
               }
             />
@@ -81,8 +77,8 @@ const PollForm:React.FC<{
                   removeElemAtIndex(
                     idx,
                     e,
-                    "supervisors",
-                    supervisors
+                    "choices",
+                    choices
                   )
                 }
               >
@@ -100,7 +96,7 @@ const PollForm:React.FC<{
       <td className="">
         <button
           onClick={(e) =>
-            addNewElem(e, "supervisors", supervisors)
+            addNewElem(e, "choices", choices)
           }
         >
           <img
@@ -116,27 +112,35 @@ const PollForm:React.FC<{
 
 <p className='font-mono text-lg font-bold mt-2'>Voting Period</p>
 <div className="flex justify-center mt-2">
-<input
-          type="text"
-          id="projectName"
-          className="w-full text-lg border border-2 border-black font-bold placeholder:text-lg placeholder:font-bold py-4 px-4  block bg-white  focus:ring-indigo-500 focus:border-indigo-500"
-          {...register("projectName")}
-        /> 
-        <p className="mt-4 mx-4">To</p>
-  <input
-          type="text"
-          id="projectName"
-          className="w-full text-lg border border-2 border-black font-bold placeholder:text-lg placeholder:font-bold py-4 px-4  block bg-white  focus:ring-indigo-500 focus:border-indigo-500"
-          {...register("projectName")}
-        /> 
+<DatePicker
+value={startDate}
+    id= "startDate"
+    selected={startDate}
+    onChange={(date: any) => setValue("startDate", date)}
+    className="w-full text-lg border border-2 border-black font-bold placeholder:text-lg placeholder:font-bold py-4 px-4  block bg-white  focus:ring-indigo-500 focus:border-indigo-500"
+    // {...register("startDate")}
+/>
+
+<p className="mt-4 mx-4">To</p>
+
+<DatePicker
+    id= "endDate"
+    selected={endDate}
+    onChange={(date: any) => setValue("endDate", date)}
+    className="w-full text-lg border border-2 border-black font-bold placeholder:text-lg placeholder:font-bold py-4 px-4  block bg-white  focus:ring-indigo-500 focus:border-indigo-500"
+    // {...register("endDate")}
+/>
+
 </div>
 
 <button>
     <img className=" mt-4 mr-4" src="/create/publish.png" />
 </button>
+<Link href={`/${groupId}`}>
 <button>
     <img className=" mt-4" src="/create/cancel.png" />
 </button>
+</Link>
 
 
   </div> 

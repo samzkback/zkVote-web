@@ -23,16 +23,7 @@ const CreationSteps: React.FC<{step:number, setStep: (value: number) => void}> =
         {
           title: 'Token Setup',
           icon: <img src={'/icons/step3.png'} width={30} />,
-        },
-        {
-          title: 'Step4',
-          icon: <img src={'/icons/step4.png'} width={30} />,
-        },
-        {
-           title: 'Step5',
-           icon: <img src={'/icons/step5.png'} width={30} />,
         }
- 
       ]}
     />
    

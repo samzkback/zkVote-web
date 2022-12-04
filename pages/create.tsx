@@ -11,17 +11,12 @@ const { Title } = Typography;
 import { useForm, SubmitHandler } from "react-hook-form";
 import Visibility from '../components/group/visibility';
 import TokenSetup from '../components/group/token';
-
-export interface CreateProjectFormInputs {
-    supervisors: string[];
-    stakeAmount: string;
-    unreturnedStakeBeneficiaries: string[];
-    returnWindowDays: string;
-    maxParticipants: string;
-    shouldParticipantsShareUnreturnedStake: boolean;
-    shouldUseSupervisorInactionGuard: boolean;
-    projectName: string;
-    projectDescription: string;
+import { useEffect } from 'react';
+export interface CreateGroupFormInputs {
+    tokenAddress: string;
+    visibility: string;
+    groupName: string;
+    groupDescription: string;
     image: any;
   }
 export default function Explore() {
@@ -33,22 +28,28 @@ export default function Explore() {
         setValue,
         getValues,
         formState: { errors },
-      } = useForm<CreateProjectFormInputs>({
+      } = useForm<CreateGroupFormInputs>({
         defaultValues: {
-          supervisors: [""],
-          stakeAmount: "0.05",
-          unreturnedStakeBeneficiaries: [],
-          returnWindowDays: "30",
-          maxParticipants: "100",
-          shouldParticipantsShareUnreturnedStake: false,
-          shouldUseSupervisorInactionGuard: true,
-          projectName: "",
-          projectDescription: "",
+          tokenAddress: "",
+          visibility: "public",
+          groupName: "",
+          groupDescription: "",
           image: undefined,    
         },
       });
     
     const [preview, setPreview] = useState<string>();
+    const image = watch("image");
+
+    useEffect(() => {
+        if (image! && image![0]) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+              setPreview(reader.result as string);
+          };
+          reader.readAsDataURL(image[0]);
+        }
+      }, [image]);
 
     const renderFn = (step:number) => {
         switch(step) {
@@ -58,16 +59,11 @@ export default function Explore() {
             return <Visibility register={register} />;
           case 2:
             return <TokenSetup register={register} />;
-          case 3:
-            return <h1>Hey</h1>;
-          case 4:
-            return <h1>Hey</h1>;
 
           default:
             return null;
         }
     }
-
 
     return (
         
