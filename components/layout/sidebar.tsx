@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import{useState } from 'react';
 import Item from './sideitem';
 
-export default function SideItems() {
+export default function SideBar() {
     const [items, setItems] = useState<any>([]);
     const explore = {
         id: '0',

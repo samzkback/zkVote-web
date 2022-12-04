@@ -3,11 +3,9 @@ import { Breadcrumb, Layout, Menu } from 'antd';
 const { Header, Content, Sider } = Layout;
 import { Card, Col, Row } from 'antd';
 import { Typography } from 'antd';
-import MainPage from '../../components/layout/mainpage';
-import SidePage from '../../components/layout/grouppage';
-import GroupPage from '../../components/layout/grouppage';
+import MainPage from '../../../components/layout/mainpage';
 import Link from 'next/link';
-import DisplayPoll from '../../components/poll/displaypoll';
+import DisplayPollContent from '../../../components/poll/displaypollcontent';
 const { Title } = Typography;
 export default function Explore() {
     const item= 
@@ -40,14 +38,10 @@ export default function Explore() {
   return (
     <>
     
-   <GroupPage item={item} >
-    <Link href={`/${item.id}/newpoll`}>
-    <button className='mt-6'>
-    <img src='/create/button1.png'/>
-    </button>
-    </Link>
-    <DisplayPoll polls={polls} />
-   </GroupPage>
+   <MainPage item={item} >
+
+    <DisplayPollContent polls={polls} />
+   </MainPage>
         
     </>
   );

@@ -4,7 +4,7 @@ import React from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
-import SideItems from "./sidebar"; './sidebar'
+import SideBar from "./sidebar"; 
 const { Header, Content, Sider } = Layout;
 
 type Props = {
@@ -44,7 +44,7 @@ export default function FrontPage({ children }: Props) {
         <Layout style={{backgroundColor:'transparent'}}>
       <div className="flex">
         <div className="flex-row mr-6 flex-shrink-0">
-          <SideItems />
+          <SideBar />
         </div>
         <div>{children}</div>
       </div>

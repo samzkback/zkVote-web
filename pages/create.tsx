@@ -1,16 +1,16 @@
 import React from 'react';
 import { Breadcrumb, Layout, Menu} from 'antd';
-import CreationSteps from '../components/project/steps';
+import CreationSteps from '../components/group/steps';
 const { Header, Content, Sider } = Layout;
 import { Card, Col, Row } from 'antd';
 import { Typography } from 'antd';
 import MainPage from '../components/layout/mainpage';
 import { useState } from 'react';
-import Details from '../components/project/details';
+import Details from '../components/group/details';
 const { Title } = Typography;
 import { useForm, SubmitHandler } from "react-hook-form";
-import Visibility from '../components/project/visibility';
-import TokenSetup from '../components/project/token';
+import Visibility from '../components/group/visibility';
+import TokenSetup from '../components/group/token';
 
 export interface CreateProjectFormInputs {
     supervisors: string[];
