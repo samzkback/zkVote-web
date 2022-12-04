@@ -20,13 +20,13 @@ export default function DisplayPollContent(props:any) {
                 ))}
             </div>
         ))}
-            <button>
-                <img className="mx-auto w-1/2" src={'/vote/vote.png'} />
-            </button>
+    <button>
+        <img className="mx-auto w-1/2" src={'/vote/vote.png'} />
+    </button>
 
 
 
-      </div>
+    </div>
 
           
              
