@@ -46,9 +46,14 @@ sequenceDiagram
   nvm use
   yarn install
   cd packages/snap/
-  yarn build:snap;yarn start
+  yarn build;yarn start
 ```
 
 # The Graph
 https://api.thegraph.com/subgraphs/name/samzkback/zkvotev2  
 ID : QmbZYif3cTafHB7AZrtNf9odeb49HVU4aEu1VZUNsbkLo8
+
+# Setup
+```shell
+  nvm use lts/hydrogen
+```
