@@ -39,3 +39,12 @@ sequenceDiagram
   F -->> VC : check "Vote Stats"
 
 ```
+
+# Setup Snap
+```shell
+  git clone https://github.com/samzkback/zkvoteLegacy.git
+  nvm use
+  yarn install
+  cd packages/snap/
+  yarn build:snap;yarn start
+```
