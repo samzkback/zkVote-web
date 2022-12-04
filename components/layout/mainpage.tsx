@@ -15,7 +15,7 @@ export default function MainPage(props:any) {
               minWidth: '85vw',
             }}
             >
-    <div className=" py-3 divide-y divide-black">
+    <div className=" py-3 divide-y divide-black flex flex-col justify-center ">
       {props.children}
     </div>
     </Content>

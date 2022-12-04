@@ -16,8 +16,6 @@ import {
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 
-// const apiKey:string = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!;
-// console.log(apiKey);
 const { chains, provider, webSocketProvider } = configureChains(
   [chain.optimismGoerli],
   [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY})]

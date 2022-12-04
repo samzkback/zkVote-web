@@ -1,4 +1,4 @@
-import FrontPage from "./header";
+import FrontPage from "./frontpage";
 type Props = {
   children: React.ReactNode;
 };

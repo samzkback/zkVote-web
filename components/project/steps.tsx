@@ -10,7 +10,7 @@ const CreationSteps: React.FC<{step:number, setStep: (value: number) => void}> =
       items={[
         {
           title: 'Details',
-          icon: <img src={'/icons/step1.png'} width={40} />,
+          icon: <img src={'/icons/step1.png'} width={30} />,
           style: {
             flexDirection: 'column', // stack the icon and title vertically
             alignItems: 'center' // center the icon and title within the step item
@@ -18,19 +18,19 @@ const CreationSteps: React.FC<{step:number, setStep: (value: number) => void}> =
         },
         {
           title: 'Visibility',
-          icon: <img src={'/icons/step2.png'} width={40} />,
+          icon: <img src={'/icons/step2.png'} width={30} />,
         },
         {
           title: 'Token Setup',
-          icon: <img src={'/icons/step3.png'} width={40} />,
+          icon: <img src={'/icons/step3.png'} width={30} />,
         },
         {
           title: 'Step4',
-          icon: <img src={'/icons/step4.png'} width={40} />,
+          icon: <img src={'/icons/step4.png'} width={30} />,
         },
         {
            title: 'Step5',
-           icon: <img src={'/icons/step5.png'} width={40} />,
+           icon: <img src={'/icons/step5.png'} width={30} />,
         }
  
       ]}
