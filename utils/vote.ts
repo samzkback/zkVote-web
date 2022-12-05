@@ -264,3 +264,16 @@ export const voteInPoll = async (
   
   window.alert("Done  : vote \"" + msg + "\" in Group " + group_id + ", see " + ETHERSCAN_IO + tx.hash)
 }
+
+export const CreatePoll = async (
+  groupId : number,
+  title : string,
+  description : string,
+  msg : string[]
+) => {
+  window.alert("Start : Create Poll ")
+  let tx = await voteContract.createPollInGroup(
+    groupId, msg, title, 
+  )
+  window.alert("Done : Create Poll , see " + ETHERSCAN_IO  + tx.hash)
+}
