@@ -207,10 +207,9 @@ export const addMember = async (group_id : number, identityCommitment : string) 
 export const voteInGroup = async (group_id : number, msg : string) => {
   window.alert("Start : vote \"" + msg + "\" in Group " + group_id )
 
+  const idcs = await queryGroupMember(group_id)
   const rand = Math.floor(Math.random() * 1000000).toString()
   const rc = await getRC(rand)
-
-  const idcs = await queryGroupMember(group_id)
 
   const groupProof = await getGroupProof(rand, idcs) as groupFullProof
   const solidityGroupProof: SolidityProof = packToSolidityProof(groupProof.proof) as SolidityProof
@@ -233,3 +232,35 @@ export const voteInGroup = async (group_id : number, msg : string) => {
   window.alert("Done  : vote \"" + msg + "\" in Group " + group_id + ", see " + ETHERSCAN_IO + tx.hash)
 }
 
+export const voteInPoll = async (
+  group_id : number,
+  poll_id : number,
+  msg : string) =>
+{
+  window.alert("Start : vote \"" + msg + "\" in Group " + group_id )
+
+  const idcs = await queryGroupMember(group_id)
+  console.log("idcs : ", idcs)
+
+  const rand = Math.floor(Math.random() * 1000000).toString()
+  const rc = await getRC(rand)
+
+  const groupProof = await getGroupProof(rand, idcs) as groupFullProof
+  const solidityGroupProof: SolidityProof = packToSolidityProof(groupProof.proof) as SolidityProof
+
+  const externalNullifier = BigNumber.from(Math.floor(Math.random() * 1000000)).toBigInt()
+  const signalProof = await getSignalProof(rand, msg, externalNullifier.toString()) as signalFullProof
+  const soliditySignalProof : SolidityProof = packToSolidityProof(signalProof.proof) as SolidityProof
+
+  window.alert("ZKP Generated!!! Start Verify on-chain ")
+
+  let tx = await voteContract.votePollInGroup(
+    rc, group_id, solidityGroupProof,
+    poll_id, msg,
+    signalProof.publicSignals.nullifierHash,
+    externalNullifier,
+    soliditySignalProof,
+    {gasLimit : 10000000})
+  
+  window.alert("Done  : vote \"" + msg + "\" in Group " + group_id + ", see " + ETHERSCAN_IO + tx.hash)
+}

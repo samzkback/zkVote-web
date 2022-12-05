@@ -29,3 +29,50 @@ export async function queryGroupMember(
     })
     return members
 }
+
+export async function queryGroupPoll(
+    groupId : number
+) {
+    const query = `
+        query($groupId: Int) {
+            pollAddeds(where: {groupId : $groupId}) {
+                groupId
+                pollId
+                title
+                voteMsgs
+            }
+        }
+    `
+
+    client.query({
+        query: gql(query),
+        variables: {
+            groupId: groupId,
+        }
+    }).then((data) => {
+        console.log("data : ", data)
+    })
+}
+
+export async function queryVoteInPoll(
+    groupId : number
+) {
+    const query = `
+        query($groupId: Int) {
+            poolVoteAddeds(where: {groupId : $groupId}) {
+                groupId
+                poolId
+                voteMsg
+            }
+        }
+    `
+
+    client.query({
+        query: gql(query),
+        variables: {
+            groupId: groupId,
+        }
+    }).then((data) => {
+        console.log("data : ", data)
+    })
+}
