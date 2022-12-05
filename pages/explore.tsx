@@ -4,7 +4,7 @@ const { Header, Content, Sider } = Layout;
 import { Card, Col, Row } from 'antd';
 import { Typography } from 'antd';
 import MainPage from '../components/layout/mainpage';
-import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember } from "../utils/vote";
+import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNFT } from "../utils/vote";
 import Link from 'next/link';
 const { Title } = Typography;
 export default function Explore() {
@@ -25,6 +25,14 @@ export default function Explore() {
     useEffect(() => {
     }, [group]);
 
+
+    async function handleOnClick(groupId:any, idc:any, tokenAddress:string) {
+        console.log("checking if user has NFT");
+        console.log("token address", tokenAddress);
+        const userHasNFT = await hasNFT(tokenAddress);
+        console.log("hasNFT", userHasNFT);
+        // await addMember(groupId,idc);
+      }
   return (
     <MainPage>
       <h1 className="text-2xl text-md mb-3 ">Explore/</h1>
@@ -39,7 +47,7 @@ export default function Explore() {
                                <p className='text-lg font-bold'>{item.name}</p>
                                <p className='text-sm text-gray-500'>{item.members.length} members</p>
                                <p className='text-sm text-[#5FFF37]'>{item.onGoing} votes ongoing</p>
-                               <button onClick={() => addMember(item.groupId, idc)} className=" mt-4 bg-white border border-1 border-black hover:bg-[#A073FF] hover:text-white text-black font-normal py-2 px-8 rounded-full">Join+</button>
+                               <button onClick={()=> handleOnClick(item.groupId, idc, item.asset)} className=" mt-4 bg-white border border-1 border-black hover:bg-[#A073FF] hover:text-white text-black font-normal py-2 px-8 rounded-full">Join+</button>
                             </div>
                         </Card>
                     </Col>

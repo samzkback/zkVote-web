@@ -79,7 +79,7 @@ export async function hasNFT(
   const provider = new ethers.providers.Web3Provider(window.ethereum)
   const signer = provider.getSigner(window.ethereum.selectedAddress)
   const nftContract = new ethers.Contract(nft_contract, NFT_ABI, signer)
-  const has_nft = await nftContract.callStatic.balanceof(window.ethereum.selectedAddress)
+  const has_nft = await nftContract.callStatic.balanceOf(window.ethereum.selectedAddress)
   console.log("has_nft : ", has_nft)
   return has_nft
 }
