@@ -34,9 +34,8 @@ export default function FrontPage({ children }: Props) {
           <div className="items-center flex justify-end sm:flex md:flex md:flex-1 lg:w-0">
        
             <div className="mr-10">
-              
-            {/* <ConnectButton /> */}
-            <WrappedConnectButton />
+              {/* <ConnectButton /> */}
+              <WrappedConnectButton />
             </div>
           </div>
         </nav>

@@ -69,6 +69,21 @@ export async function mint_nft(
   window.alert("mint nft " + nft_contract + " done !")
 }
 
+
+export async function hasNFT(
+  nft_contract : string
+) {
+  const NFT_ABI = [
+    "function balanceOf(address owner) returns(uint256)"
+  ]
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+  const signer = provider.getSigner(window.ethereum.selectedAddress)
+  const nftContract = new ethers.Contract(nft_contract, NFT_ABI, signer)
+  const has_nft = await nftContract.callStatic.balanceof(window.ethereum.selectedAddress)
+  console.log("has_nft : ", has_nft)
+  return has_nft
+}
+
 export const getBIP44 = async () => {
     return await requestSnap('get_bip44')
 };
