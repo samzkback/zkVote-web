@@ -12,9 +12,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Visibility from '../components/group/visibility';
 import TokenSetup from '../components/group/token';
 import { useEffect } from 'react';
+import { CreateGroupWithAssetDemand, PRIVACY } from '../utils/vote';
+
 export interface CreateGroupFormInputs {
     tokenAddress: string;
-    visibility: string;
+    visibility: PRIVACY;
     groupName: string;
     groupDescription: string;
     image: any;
@@ -25,13 +27,13 @@ export default function Explore() {
         register,
         handleSubmit,
         watch,
-        setValue,
+      setValue,
         getValues,
         formState: { errors },
       } = useForm<CreateGroupFormInputs>({
         defaultValues: {
           tokenAddress: "",
-          visibility: "public",
+          visibility: PRIVACY.ANYONE,
           groupName: "",
           groupDescription: "",
           image: undefined,    
@@ -40,6 +42,10 @@ export default function Explore() {
     
     const [preview, setPreview] = useState<string>();
     const image = watch("image");
+    const tokenAddress = watch("tokenAddress");
+    const visibility = watch("visibility");
+    const groupName = watch("groupName");
+    const groupDescription = watch("groupDescription");
 
     useEffect(() => {
         if (image! && image![0]) {
@@ -51,6 +57,26 @@ export default function Explore() {
         }
       }, [image]);
 
+    const onSubmit = () => {
+      console.log('submitting');
+      console.log(groupName)
+      console.log(groupDescription)
+      console.log(visibility)
+      console.log(tokenAddress)
+      console.log(image)
+      CreateGroupWithAssetDemand(
+        groupName,
+        groupDescription,
+        visibility,
+        image,
+        tokenAddress
+
+      ).then(() => {
+        console.log("Successfully created group!");
+      })
+    }
+
+
     const renderFn = (step:number) => {
         switch(step) {
           case 0:
@@ -58,7 +84,7 @@ export default function Explore() {
           case 1:
             return <Visibility register={register} />;
           case 2:
-            return <TokenSetup register={register} />;
+            return <TokenSetup register={register} onSubmit={onSubmit} />;
 
           default:
             return null;

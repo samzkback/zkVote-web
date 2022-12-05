@@ -6,9 +6,9 @@ const Details = ({ register, preview }: { register: any, preview: any }) => {
         <div className="flex justify-center mt-2">
           <input
             type="text"
-            id="grouptName"
+            id="groupName"
             className="w-full text-lg border border-2 border-black font-bold placeholder:text-lg placeholder:font-bold py-4 px-4 block bg-white focus:ring-indigo-500 focus:border-indigo-500"
-            {...register("grouptName")}
+            {...register("groupName")}
           />
         </div>
 
@@ -18,7 +18,7 @@ const Details = ({ register, preview }: { register: any, preview: any }) => {
             rows={5}
             id="groupDescription"
             className="w-full text-lg border border-2 border-black font-bold placeholder:text-lg placeholder:font-bold py-4 px-4 block bg-white focus:ring-indigo-500 focus:border-indigo-500"
-            {...register("grouptDescription")}
+            {...register("groupDescription")}
           />
         </div>
         <div className="mt-4 mb-4 text-center flex justify-center">

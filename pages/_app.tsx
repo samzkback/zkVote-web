@@ -17,8 +17,8 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [chain.optimismGoerli],
-  [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY})]
+  [chain.goerli],
+  [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY })]
 );
 
 const { wallets } = getDefaultWallets({
@@ -51,13 +51,13 @@ const wagmiClient = createClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-        <WagmiConfig client={wagmiClient}>
-          <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </RainbowKitProvider>
-        </WagmiConfig>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }
 

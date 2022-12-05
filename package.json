@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.1",
+    "@ethersproject/shims": "^5.7.0",
+    "@metamask/key-tree": "^6.0.0",
     "@rainbow-me/rainbowkit": "^0.8.0",
     "@types/node": "18.11.10",
     "@types/react": "18.0.26",

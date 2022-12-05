@@ -1,8 +1,10 @@
 
-import {useState, useEffect} from 'react';
-const TokenSetup = ({ register }: {register: any} ) => {
+import { CreateGroupFormInputs } from "../../pages/create";
 
-  return (
+import { UseFormRegister } from "react-hook-form";const TokenSetup: React.FC<{
+  register: UseFormRegister<CreateGroupFormInputs>,
+  onSubmit: () => void,
+  }>= ({register, onSubmit}) => (
     <>
     <div className="bg-white border border-2 rounded-3xl border-black py-6 px-6 w-full">
       <p className='font-mono text-lg font-bold'>Setup required token for joining</p>
@@ -15,7 +17,7 @@ const TokenSetup = ({ register }: {register: any} ) => {
           {...register("tokenAddress")}
         />
       </div>
-      <button>
+      <button onClick={onSubmit}>
         <img className=" mt-4 mr-4 w-3/4" src="/create/create.png" />
       </button>
 
@@ -25,6 +27,5 @@ const TokenSetup = ({ register }: {register: any} ) => {
         </>
     )
     
-}
 
 export default TokenSetup

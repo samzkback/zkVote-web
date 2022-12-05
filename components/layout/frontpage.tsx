@@ -6,7 +6,7 @@ import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import SideBar from "./sidebar"; 
 const { Header, Content, Sider } = Layout;
-
+import WrappedConnectButton from '../../components/button/WrappedConnectButton';
 type Props = {
   children: React.ReactNode;
 };
@@ -35,7 +35,8 @@ export default function FrontPage({ children }: Props) {
        
             <div className="mr-10">
               
-            <ConnectButton />
+            {/* <ConnectButton /> */}
+            <WrappedConnectButton />
             </div>
           </div>
         </nav>
