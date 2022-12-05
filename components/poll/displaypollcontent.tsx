@@ -6,7 +6,7 @@ export default function DisplayPollContent(props:any) {
     <>
       <div className="bg-white border border-2 rounded-3xl border-black py-6 px-6 w-full">
       <div className="flex flex-col mt-2">
-        {polls.map((poll: any) => (
+        {polls && polls.map((poll: any) => (
             <div key={poll.id} className="flex flex-col px-10 py-4">
 
                 <p className='font-mono text-3xl font-bold mb-4'>{poll.title}</p>

@@ -51,6 +51,7 @@ export async function queryGroupPoll(
         }
     }).then((data) => {
         console.log("data : ", data)
+        return data.data.pollAddeds
     })
 }
 
@@ -74,5 +75,6 @@ export async function queryVoteInPoll(
         }
     }).then((data) => {
         console.log("data : ", data)
+        return data.data.poolVoteAddeds
     })
 }

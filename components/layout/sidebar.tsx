@@ -46,7 +46,7 @@ export default function SideBar() {
     return (
         <>
         <Item item={explore} />
-        {items.map((item:any) => (
+        {items&& items.map((item:any) => (
             <div key={item.id}>
                 <Item item={item} />
             </div>
