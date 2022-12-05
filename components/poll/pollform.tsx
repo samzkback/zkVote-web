@@ -14,6 +14,7 @@ interface CreatePollFormInputs {
 
 const PollForm:React.FC<{
     groupId: string;
+    onSubmit: () => void,
     setValue: UseFormSetValue<CreatePollFormInputs>;
     startDate: any;
     endDate: any;
@@ -22,7 +23,7 @@ const PollForm:React.FC<{
     setElemAtIndex: (index: number, event: ChangeEvent<HTMLInputElement>,formKey: keyof CreatePollFormInputs,formVal: string[] ) => void,
     removeElemAtIndex: (index: number, event: any, formKey: keyof CreatePollFormInputs, formVal: string[]) => void,
     addNewElem: (event: any, formKey: keyof CreatePollFormInputs,formVal: string[]) => void,
-    }>= ({groupId, setValue, startDate, endDate, choices, register, setElemAtIndex, removeElemAtIndex, addNewElem}) => (
+    }>= ({groupId, setValue, startDate, endDate, choices, register, setElemAtIndex, removeElemAtIndex, addNewElem, onSubmit}) => (
 
     <>
       <div className="bg-white border border-2 rounded-3xl border-black py-6 px-6 w-full">
@@ -133,7 +134,7 @@ value={startDate}
 
 </div>
 
-<button>
+<button onClick={onSubmit}>
     <img className=" mt-4 mr-4" src="/create/publish.png" />
 </button>
 <Link href={`/${groupId}`}>

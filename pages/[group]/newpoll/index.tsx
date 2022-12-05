@@ -9,7 +9,9 @@ import { useRouter } from 'next/router';
 import PollForm from "../../../components/poll/pollform";
 import {useForm, SubmitHandler } from "react-hook-form";
 import { useState, useEffect } from "react";
-
+import { useAllGroupInfo } from '../../../hooks/useAllGroupInfo';
+import { useSpecificGroupInfo } from '../../../hooks/useSpecificGroupInfo';
+import { CreatePoll } from '../../../utils/vote';
 export interface CreatePollFormInputs {
     choices: string[];
     title: string;
@@ -25,6 +27,16 @@ export async function getServerSideProps(context:any) {
 }
 export default function NewPoll(props:any) {
     const groupId:string = props.group;
+    const numId=parseInt(groupId);
+    const allGroup = useAllGroupInfo();
+    const [currentGroup, setCurrentGroup] = useState<any>();
+    useEffect(() => {
+        if(allGroup){
+            const currentGroup = useSpecificGroupInfo(allGroup, groupId);
+            setCurrentGroup(currentGroup);
+        }
+    }, [allGroup]);
+    
     const {
         register,
         handleSubmit,
@@ -87,11 +99,22 @@ export default function NewPoll(props:any) {
         console.log(getValues("description"));
       }, [startDate, endDate, choices, title, description]);
 
+  const onSubmit = () => {
+    console.log("publishing poll")  
+    console.log("choices", choices);
+    console.log("title", title);
+    console.log("description", description);
+    console.log('groupId', groupId);
+    CreatePoll(numId, title, description, choices);
+  }
 
   return (
     <MainPage>
-      <h1 className="text-2xl text-md mb-3 ">{groupId}/New Poll/</h1>
-      <PollForm groupId={groupId} setValue={setValue} startDate={startDate} endDate={endDate} register={register}  choices={choices} setElemAtIndex={setElemAtIndex} removeElemAtIndex={removeElemAtIndex} addNewElem={addNewElem}/>
+      {currentGroup && <>
+      <h1 className="text-2xl text-md mb-3 ">{currentGroup.name}/New Poll/</h1>
+      <PollForm groupId={groupId} setValue={setValue} startDate={startDate} endDate={endDate} register={register}  choices={choices} setElemAtIndex={setElemAtIndex} removeElemAtIndex={removeElemAtIndex} addNewElem={addNewElem} onSubmit={onSubmit}/>
+      </>
+      }
     </MainPage>
   );
 }
