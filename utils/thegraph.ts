@@ -19,14 +19,13 @@ export async function queryGroupMember(
     `
 
     let members : string[] = []
-    client.query({
+    const data = await client.query({
         query: gql(query),
         variables: {
             groupId: groupId,
         }
-    }).then((data) => {
-        data.data.memberAddeds.forEach(m => members.push(m.identityCommitment))
     })
+    data.data.memberAddeds.forEach(m => members.push(m.identityCommitment))
     return members
 }
 
@@ -44,15 +43,13 @@ export async function queryGroupPoll(
         }
     `
 
-    client.query({
+    const data = await client.query({
         query: gql(query),
         variables: {
             groupId: groupId,
         }
-    }).then((data) => {
-        console.log("data : ", data)
-        return data.data.pollAddeds
     })
+    return data.data.pollAddeds
 }
 
 export async function queryVoteInPoll(
@@ -68,13 +65,11 @@ export async function queryVoteInPoll(
         }
     `
 
-    client.query({
+    const data = await client.query({
         query: gql(query),
         variables: {
             groupId: groupId,
         }
-    }).then((data) => {
-        console.log("data : ", data)
-        return data.data.poolVoteAddeds
     })
+    return data.data.poolVoteAddeds
 }
