@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState}from 'react';
 import { Breadcrumb, Layout, Menu } from 'antd';
 const { Header, Content, Sider } = Layout;
 import { Card, Col, Row } from 'antd';
@@ -8,8 +8,29 @@ import SidePage from '../../components/layout/grouppage';
 import GroupPage from '../../components/layout/grouppage';
 import Link from 'next/link';
 import DisplayPoll from '../../components/poll/displaypoll';
+import { useAllGroupInfo } from '../../hooks/useAllGroupInfo';
+import { useSpecificGroupInfo } from '../../hooks/useSpecificGroupInfo';
+
 const { Title } = Typography;
-export default function Explore() {
+export async function getServerSideProps(context:any) {
+    const { group } = context.query;
+    return {
+        props: { group }
+    }
+}
+
+export default function GroupHome(props:any) {
+    const groupId= props.group;
+    const allGroup = useAllGroupInfo();
+    const [currentGroup, setCurrentGroup] = useState<any>();
+    useEffect(() => {
+        if(allGroup){
+            const currentGroup = useSpecificGroupInfo(allGroup, groupId);
+            setCurrentGroup(currentGroup);
+        }
+    }, [allGroup]);
+
+    
     const item= 
         {
             id: '1',
@@ -39,15 +60,16 @@ export default function Explore() {
 
   return (
     <>
-    
-   <GroupPage item={item} >
-    <Link href={`/${item.id}/newpoll`}>
+    {currentGroup && 
+   <GroupPage item={currentGroup} >
+    <Link href={`/${currentGroup.groupId}/newpoll`}>
     <button className='mt-6'>
     <img src='/create/button1.png'/>
     </button>
     </Link>
     <DisplayPoll polls={polls} />
    </GroupPage>
+   }
         
     </>
   );

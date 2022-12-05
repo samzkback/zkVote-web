@@ -17,10 +17,14 @@ export interface CreatePollFormInputs {
     startDate: Date;
     endDate: Date;
   }
-const { Title } = Typography;
+export async function getServerSideProps(context:any) {
+  const { group } = context.query;
+  return {
+      props: { group }
+  }
+}
 export default function NewPoll(props:any) {
-    const router = useRouter();
-    const groupId:string = router.query.group!.toString();
+    const groupId:string = props.group;
     const {
         register,
         handleSubmit,
@@ -88,7 +92,6 @@ export default function NewPoll(props:any) {
     <MainPage>
       <h1 className="text-2xl text-md mb-3 ">{groupId}/New Poll/</h1>
       <PollForm groupId={groupId} setValue={setValue} startDate={startDate} endDate={endDate} register={register}  choices={choices} setElemAtIndex={setElemAtIndex} removeElemAtIndex={removeElemAtIndex} addNewElem={addNewElem}/>
-
     </MainPage>
   );
 }

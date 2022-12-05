@@ -6,6 +6,8 @@ import { Typography } from 'antd';
 import MainPage from '../../../components/layout/mainpage';
 import Link from 'next/link';
 import DisplayPollContent from '../../../components/poll/displaypollcontent';
+import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNFT, mint_nft } from "../../../utils/vote";
+
 const { Title } = Typography;
 export default function Explore() {
     const item= 

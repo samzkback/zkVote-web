@@ -7,7 +7,6 @@ const { Header, Content } = Layout;
 
 export default function GroupPage(props:any) {
   const { item } = props;
-  const { id, title, icon, members, onGoing, link } = item;
   
   return (
     <div className="mt-6 " >
