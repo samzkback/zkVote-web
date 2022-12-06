@@ -63,6 +63,14 @@ sequenceDiagram
   npm run dev
 ```
 
+# [Optional] Setup Relayer
+see "using_relayer"
+
+```shell
+  cd backend
+  ts-node relayer.ts
+```
+
 # TODO
 1. Privacy Protect of Ethereum Address   
   offchain relayer VS EIP4337(still need realyer)

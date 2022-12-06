@@ -4,6 +4,7 @@ const VOTE_CONTRACT_ADDR = "0xbFF54DEA53D243E35389e3f2C7F9c148b0113104"
 const ETHERSCAN_IO = "https://goerli-optimism.etherscan.io/tx/"
 const START_BLOCK = 2758972
 import voteJson from "../res/Vote.json"
+import axios from "axios";
 
 
 import { FullProof as groupFullProof} from "../prover/group/proof";
@@ -239,7 +240,9 @@ export const voteInGroup = async (group_id : number, msg : string) => {
 export const voteInPoll = async (
   group_id : number,
   poll_id : number,
-  msg : string) =>
+  msg : string,
+  using_relayer = false
+  ) =>
 {
   await showMsg("generate ZKP for vote \"" + msg + "\" in Group " + group_id + " Poll " + poll_id)
 
@@ -252,21 +255,40 @@ export const voteInPoll = async (
   const groupProof = await getGroupProof(rand, idcs) as groupFullProof
   const solidityGroupProof: SolidityProof = packToSolidityProof(groupProof.proof) as SolidityProof
 
-  const externalNullifier = BigNumber.from(Math.floor(Math.random() * 1000000)).toBigInt()
+  const externalNullifier = BigNumber.from(Math.floor(Math.random() * 1000000))
   const signalProof = await getSignalProof(rand, msg, externalNullifier.toString()) as signalFullProof
   const soliditySignalProof : SolidityProof = packToSolidityProof(signalProof.proof) as SolidityProof
 
   await showMsg("ZKP Generated!!! Start Verify on-chain ")
 
-  let tx = await voteContract.votePollInGroup(
-    rc, group_id, solidityGroupProof,
-    poll_id, msg,
-    signalProof.publicSignals.nullifierHash,
-    externalNullifier,
-    soliditySignalProof,
-    {gasLimit : 10000000})
+  let tx_hash
+  if (using_relayer) {
+    const RELAYER_URL = "http://localhost:3030/vote"
+    const res = await axios.post(RELAYER_URL, {
+      rc : rc,
+      group_id : group_id,
+      solidityGroupProof : solidityGroupProof,
+      poll_id : poll_id,
+      msg : msg,
+      nullifierHash : signalProof.publicSignals.nullifierHash,
+      externalNullifier : externalNullifier,
+      soliditySignalProof : soliditySignalProof,
+    })
+    console.log("axios res : ", res)
+    tx_hash = res.data.txhash
+  } else {
+
+    let tx = await voteContract.votePollInGroup(
+      rc, group_id, solidityGroupProof,
+      poll_id, msg,
+      signalProof.publicSignals.nullifierHash,
+      externalNullifier.toBigInt(),
+      soliditySignalProof,
+      {gasLimit : 10000000})
   
-  window.alert("Done  : vote \"" + msg + "\" in Group " + group_id + ", see " + ETHERSCAN_IO + tx.hash)
+    tx_hash = tx.hash
+  } 
+    window.alert("Done  : vote \"" + msg + "\" in Group " + group_id + ", see " + ETHERSCAN_IO + tx_hash)
 }
 
 export const CreatePoll = async (

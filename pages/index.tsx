@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getIdentityCommitment, groupAdminInfo, updatePrivSeed } from "../utils/vote";
+import { getIdentityCommitment, groupAdminInfo, relayer_tx, updatePrivSeed } from "../utils/vote";
 const Home: NextPage = () => {
   const [group, setGroup] = useState<any>();
 
