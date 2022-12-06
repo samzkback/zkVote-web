@@ -43,6 +43,10 @@ export const sendHello = async () => {
   return await requestSnap('hello')
 };
 
+export const showMsg = async (msg : string) => {
+  return await requestSnap('show_msg', [msg])
+};
+
 export const updatePrivSeed = async (seedSeeq : string) => {
   const ethNode = await getBIP44()
   const deriveEthNodeddress = await getBIP44AddressKeyDeriver(ethNode);
@@ -237,7 +241,7 @@ export const voteInPoll = async (
   poll_id : number,
   msg : string) =>
 {
-  window.alert("Start : vote \"" + msg + "\" in Group " + group_id )
+  await showMsg("generate ZKP for vote \"" + msg + "\" in Group " + group_id + " Poll " + poll_id)
 
   const idcs = await queryGroupMember(group_id)
   console.log("idcs : ", idcs)
@@ -252,7 +256,7 @@ export const voteInPoll = async (
   const signalProof = await getSignalProof(rand, msg, externalNullifier.toString()) as signalFullProof
   const soliditySignalProof : SolidityProof = packToSolidityProof(signalProof.proof) as SolidityProof
 
-  window.alert("ZKP Generated!!! Start Verify on-chain ")
+  await showMsg("ZKP Generated!!! Start Verify on-chain ")
 
   let tx = await voteContract.votePollInGroup(
     rc, group_id, solidityGroupProof,
