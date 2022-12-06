@@ -20,7 +20,8 @@ export async function getServerSideProps(context:any) {
 }
 
 export default function GroupHome(props:any) {
-    const groupId= props.group;
+
+    const [groupId, setGroupId] = useState<any>(props.group);
     const allGroup = useAllGroupInfo();
     const [currentGroup, setCurrentGroup] = useState<any>();
     useEffect(() => {
@@ -29,6 +30,9 @@ export default function GroupHome(props:any) {
             setCurrentGroup(currentGroup);
         }
     }, [allGroup]);
+    useEffect(() => {
+        console.log("group id is ", groupId)
+    }, [groupId]);
 
   return (
     <>
@@ -39,7 +43,7 @@ export default function GroupHome(props:any) {
     <img src='/create/button1.png'/>
     </button>
     </Link>
-    <DisplayPoll polls={groupId} />
+    <DisplayPoll groupId={currentGroup.groupId} />
    </GroupPage>
    }
         

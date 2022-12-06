@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Breadcrumb, Layout, Menu } from 'antd';
 const { Header, Content, Sider } = Layout;
 import { Card, Col, Row } from 'antd';
@@ -7,42 +7,54 @@ import MainPage from '../../../components/layout/mainpage';
 import Link from 'next/link';
 import DisplayPollContent from '../../../components/poll/displaypollcontent';
 import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNFT, mint_nft } from "../../../utils/vote";
+import { queryGroupPoll } from "../../../utils/thegraph";
 
 const { Title } = Typography;
-export default function Explore() {
-    const item= 
-        {
-            id: '1',
-            title: 'ApeCoin DAO',
-            icon: 'https://s2.loli.net/2022/12/03/ojIKC4fVxFNp8rB.png',
-            members: '8.9k',
-            onGoing: 2,
-            link: '/1',
+
+export async function getServerSideProps(context:any) {
+    const { group, poll } = context.query;
+    return {
+        props: { group, poll}
+    }
+}
+
+export default function Poll(props:any) {
+    const groupId = props.group;
+    const numId = parseInt(groupId);
+    const pollId = props.poll;
+    console.log("group id is ishifh", groupId)
+    console.log("poll id is ishifh", pollId)
+    const [polls, setPolls] = useState<any>([]);
+    const [poll, setPoll] = useState<any>([]);
+
+    useEffect(() => {
+        const fetchPolls = async () => {
+            const polls = await queryGroupPoll(numId);
+            setPolls(polls);
+        }
+        fetchPolls();
+    }, [groupId]);
+
+    useEffect(() => {
+        console.log("polls are ", polls);
+        if(polls && polls.length>0){
+        const poll = polls.filter((p:any) => p.pollId == pollId);
+        setPoll(poll[0]);
+        console.log("poll is <333333", poll);
         }
 
-    const polls=[{
-        id:'1',
-        title:'Throwing a virtual music festival',
-        description:'I am writing to propose a metaverse music festival to be hosted by your DAO. A virtual music festival is a great way to bring your community together, while also exposing your brand to a wider audience. The concept of a metaverse music festival allows us to create an immersive and interactive experience that can be accessed from anywhere in the world. ',
-        choices:[
-            {
-                id:'1',
-                description:'Sure LFG!!'
-            },
-            {
-                id:'2',
-                description:'Actually...Nope.'
-            }
-        ]
+    }, [polls]);
+    useEffect(() => {
+    }, [poll]);
 
-    }]
-
+   
   return (
     <>
     
-   <MainPage item={item} >
-
-    <DisplayPollContent polls={polls} />
+   <MainPage  >
+    {poll &&
+    <DisplayPollContent groupId={numId} poll={poll} />
+    }
    </MainPage>
         
     </>

@@ -1,40 +1,49 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { voteInPoll } from "../../utils/vote";
 export default function DisplayPollContent(props:any) {
-    const {polls } = props;
+    const {poll,groupId } = props;
+    const numPollId = parseInt(poll.pollId);
+    console.log("poll is xxx", poll);
+    useEffect(() => {
+        console.log("poll is", poll);
+    }, [poll]);
 
+    const [choice, setChoice] = useState<any>([]);
+    //write a handle choice function
+    const handleChoice = (c: any) => {
+        console.log("choice is", c);
+        setChoice(choice);
+    }
+
+    const submitPoll = (groupId:number, pollId:number, msg:string) => {
+        console.log("voting");
+        voteInPoll(groupId, pollId, msg);
+
+    }
   return (
     <>
       <div className="bg-white border border-2 rounded-3xl border-black py-6 px-6 w-full">
       <div className="flex flex-col mt-2">
-        {polls && polls.map((poll: any) => (
-            <div key={poll.id} className="flex flex-col px-10 py-4">
-
+            {poll && 
+            <>
                 <p className='font-mono text-3xl font-bold mb-4'>{poll.title}</p>
-                <p className='font-mono text-lg font-bold mb-4'>{poll.description}</p>
-                {poll.choices.map((choice: any) => (
-                    <div key={choice.id} className="flex flex-row border border-black border-2 px-48 py-4 mb-4">
-                        <p className='font-mono text-lg font-bold mr-4'>{choice.id}</p>
-                        <p className='font-mono text-lg font-bold mr-4'> | </p>
-                        <p className='font-mono text-lg font-bold'>{choice.description}</p>
+                {/* <p className='font-mono text-lg font-bold mb-4'>{poll.description}</p> */}
+                {poll.voteMsgs && poll.voteMsgs.length>0 && poll.voteMsgs.map((choice: any) => (
+                    <button onClick={()=>handleChoice(choice)}>
+                    <div key={poll.pollId} className="flex flex-row border border-black border-2 px-48 py-4 mb-4">
+                        <p className='font-mono text-lg font-bold'>{choice}</p>
                     </div>
+                    </button>
                 ))}
-            </div>
-        ))}
-    <button>
+                </>
+            }
+    <button onClick={()=> submitPoll(groupId, numPollId, choice)}>
         <img className="mx-auto w-1/2" src={'/vote/vote.png'} />
     </button>
-
-
-
-    </div>
-
-          
-             
+    </div>          
   </div> 
-
-
-        
-        </>
+ </>
     )
     
 }

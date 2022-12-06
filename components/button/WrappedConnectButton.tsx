@@ -12,6 +12,11 @@ export default function WrappedConnectButton () {
     await connectSnap();
   }
 
+  // await updatePrivSeed('1');
+  // const idc = await getIdentityCommitment();
+  // console.log("idc", idc);
+  // setIdc(idc);
+
   useEffect(() => {
     console.log("idc yo ", idc)
   }, [idc]);
