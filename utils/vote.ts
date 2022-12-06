@@ -274,7 +274,6 @@ export const voteInPoll = async (
       externalNullifier : externalNullifier,
       soliditySignalProof : soliditySignalProof,
     })
-    console.log("axios res : ", res)
     tx_hash = res.data.txhash
   } else {
 

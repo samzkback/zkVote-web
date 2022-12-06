@@ -26,40 +26,10 @@ app.get('/', function (req, res) {
   res.send('Manta-voting backend!!!')
 })
 
-// app.get('/create_group', async function (req, res) {
-
-//   console.log(req.query)
-
-//   // on-chain create group
-//   CUR_GROUP_ID++
-//   let tx = await voteContract.createGroup(CUR_GROUP_ID, 10, signer.address)
-
-//   var response = {
-//     "group_id" : CUR_GROUP_ID,
-//     "txHash" : tx.hash
-//   }
-//   res.end(JSON.stringify(response));
-// })
-
-// app.post('/join_group', async function (req, res) {
-//   console.log(req.body)
-
-//   const id = new Identity(req.body.seed)
-//   let tx = await voteContract.addMember(CUR_GROUP_ID, id.getCommitment())
-
-//   var response = {
-//     "txHash" : tx.hash
-//   }
-//   res.end(JSON.stringify(response));
-// })
-
 app.post('/vote', async function (req, res) {
-  console.log(req.body)
   const params = req.body
 
   const externalNullifier = ethers.BigNumber.from(params.externalNullifier.hex)
-  
-  console.log("externalNullifier : ", externalNullifier)
   let tx = await (await voteContract.votePollInGroup(
     params.rc, params.group_id, params.solidityGroupProof,
     params.poll_id, params.msg,
@@ -67,8 +37,6 @@ app.post('/vote', async function (req, res) {
     externalNullifier.toBigInt(),
     params.soliditySignalProof,
     {gasLimit : 10000000})).wait()
-
-  console.log("tx : ", tx)
 
   var response = {
     txhash : tx.transactionHash

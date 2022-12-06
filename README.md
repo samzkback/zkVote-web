@@ -74,3 +74,4 @@ see "using_relayer"
 # TODO
 1. Privacy Protect of Ethereum Address   
   offchain relayer VS EIP4337(still need realyer)
+  refactor vote contract for a static verify interface.
