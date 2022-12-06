@@ -56,4 +56,6 @@ ID : QmbZYif3cTafHB7AZrtNf9odeb49HVU4aEu1VZUNsbkLo8
 # Setup
 ```shell
   nvm use lts/hydrogen
+  npm install
+  npm run dev
 ```
