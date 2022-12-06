@@ -277,3 +277,11 @@ export const CreatePoll = async (
   )
   window.alert("Done : Create Poll , see " + ETHERSCAN_IO  + tx.hash)
 }
+
+export const getPollVoteStat = async (
+  groupId : number,
+  pollId : number,
+  msg : string
+) => {
+  return await voteContract.callStatic.pollVoteStat(groupId, pollId, msg)
+}
