@@ -5,11 +5,49 @@ import { useState } from 'react';
 
 export default function WrappedConnectButton () {
   const [idc, setIdc] = useState<any>();
+  const [currentAccount, setCurrentAccount] = useState("");
 
 
+  const connectMetaMask = async () => {
+    try{
+      const {ethereum } = window;
+      if(!ethereum){
+        alert("Please install metamask");
+        return;
+      }
+      const accounts = await ethereum.request({method: 'eth_requestAccounts'});
+      const account = accounts[0];
+      console.log("account", account);
+      setCurrentAccount(account);
+    } catch (error) {
+      console.log(error);
+
+
+    }
+  }
+  useEffect(() => {
+    console.log("current account", currentAccount);
+  }, [currentAccount]);
+
+  // useEffect(() => {
+  //   const updateAndFetch = async () => {
+  //     if(currentAccount){
+  //       await updatePrivSeed('1');
+  //       const idc = await getIdentityCommitment();
+  //       console.log('this is idc', idc)
+  //       setIdc(idc);
+  //     }
+  //   };
+  //   updateAndFetch();
+  // }, [currentAccount]);
+
+  
+  
+  
   async function handleOnClick(){
     console.log("clicked");
     await connectSnap();
+    await connectMetaMask();
   }
 
   // await updatePrivSeed('1');

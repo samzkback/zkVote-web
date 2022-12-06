@@ -8,27 +8,72 @@ import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNF
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 const { Title } = Typography;
+declare const window: any;
 export default function Explore() {
-    const [group, setGroup] = useState<any>();
-    const [idc , setIdc] = useState<any>();
-    const router = useRouter();
+const [group, setGroup] = useState<any>();
+const [idc , setIdc] = useState<any>();
+const [walletConnected, setWalletConnected] = useState(false);
+const router = useRouter();
 
-    useEffect(() => {
-        const updateAndFetch = async () => {
-        await updatePrivSeed('1');
-        const idc = await getIdentityCommitment();
-        setIdc(idc);
-        const group = await groupAdminInfo();
-        setGroup(group);
-        console.log("group", group);
-        };
-        updateAndFetch();
-    }, []);
-    useEffect(() => {
-    }, [group]);
+useEffect(() => {
+    // Check if MetaMask is installed
+    if (typeof window.ethereum !== 'undefined') {
+      // Check if accounts are already available
+      if (window.ethereum.selectedAddress) {
+        // Accounts are already available, set the walletConnected state to true
+        setWalletConnected(true);
+      } else {
+        // Accounts are not available, set the walletConnected state to false
+        setWalletConnected(false);
+      }
+    } else {
+      // MetaMask is not installed, set the walletConnected state to false
+      setWalletConnected(false);
+    }
+  }, []);
+
+// This effect will run only when the walletConnected state changes
+useEffect(() => {
+  // Check if the wallet is connected
+  if (walletConnected) {
+    const updateAndFetch = async () => {
+      await updatePrivSeed('1');
+      const idc = await getIdentityCommitment();
+      console.log("im the idc", idc)
+      setIdc(idc);
+    //   const group = await groupAdminInfo();
+    //   setGroup(group);
+    //   console.log("group", group);
+    };
+    updateAndFetch();
+  }
+}, [walletConnected]);
+
+useEffect(() => {
+    console.log(group)
+}, [group]);
+
+useEffect(() => {
+    console.log("<33333")
+    console.log("idc", idc)
+    console.log("group", group)
+    if(idc){
+        const fetchGroup = async () => {
+            const group = await groupAdminInfo();
+            setGroup(group);
+            console.log("group", group);
+        }
+        fetchGroup();
+    }
 
 
-    async function handleOnClick(groupId:any, idc:any, tokenAddress:string) {
+}, [idc]);
+
+console.log("is wallet connected", walletConnected);
+
+
+
+async function handleOnClick(groupId:any, idc:any, tokenAddress:string) {
         console.log("checking if user has NFT");
         console.log("token address", tokenAddress);
         const checkNFT = await hasNFT(tokenAddress);
@@ -47,7 +92,7 @@ export default function Explore() {
     <MainPage>
       <h1 className="text-2xl text-md mb-3 ">Explore/</h1>
         <div className="grid gap-4 grid-cols-3 pt-10">
-            {group && group.map((item:any) => (
+            {idc && group && group.map((item:any) => (
             <div key={item.groupId}>
                  <Row gutter={0}>
                     <Col span={24}>

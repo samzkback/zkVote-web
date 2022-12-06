@@ -1,9 +1,5 @@
 import React, { use } from "react";
 import { ChangeEvent } from "react";
-// import React from 'react';
-import { Breadcrumb, Layout, Menu } from 'antd';
-import { Card, Col, Row } from 'antd';
-import { Typography } from 'antd';
 import MainPage from '../../../components/layout/mainpage';
 import { useRouter } from 'next/router';
 import PollForm from "../../../components/poll/pollform";

@@ -3,7 +3,7 @@ import { Breadcrumb, Layout, Menu } from 'antd';
 const { Header, Content, Sider } = Layout;
 import { Card, Col, Row } from 'antd';
 import { Typography } from 'antd';
-import MainPage from '../../../components/layout/mainpage';
+import MainPageV2 from '../../../components/layout/mainpagev2';
 import Link from 'next/link';
 import DisplayPollContent from '../../../components/poll/displaypollcontent';
 import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNFT, mint_nft } from "../../../utils/vote";
@@ -52,7 +52,7 @@ export default function Poll(props:any) {
   return (
     <>
     
-   <MainPage  >
+   <MainPageV2 >
     {poll &&
     <>
     <DisplayPollContent groupId={numId} poll={poll} />
@@ -61,7 +61,7 @@ export default function Poll(props:any) {
     </div>
     </>
     }
-   </MainPage>
+   </MainPageV2>
         
     </>
   );
