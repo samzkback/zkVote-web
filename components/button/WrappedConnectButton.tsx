@@ -1,11 +1,13 @@
-import React, { use, useEffect } from 'react';
+import React, { use, useContext, useEffect } from 'react';
 import { connectSnap } from '../../utils/snap';
 import { getIdentityCommitment, updatePrivSeed } from '../../utils/vote';
 import { useState } from 'react';
+import { WalletContext } from '../../contexts/WalletContext';
 
 export default function WrappedConnectButton () {
   const [idc, setIdc] = useState<any>();
   const [currentAccount, setCurrentAccount] = useState("");
+  const { setAddress, setIsSnapInstalled } = useContext(WalletContext);
 
 
   const connectMetaMask = async () => {
@@ -19,6 +21,7 @@ export default function WrappedConnectButton () {
       const account = accounts[0];
       console.log("account", account);
       setCurrentAccount(account);
+      setAddress(account);
     } catch (error) {
       console.log(error);
 
@@ -46,7 +49,8 @@ export default function WrappedConnectButton () {
   
   async function handleOnClick(){
     console.log("clicked");
-    await connectSnap();
+    const res = await connectSnap();
+    setIsSnapInstalled(res);
     await connectMetaMask();
   }
 

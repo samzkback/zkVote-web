@@ -21,6 +21,7 @@ export const connectSnap = async (
     method: 'wallet_enable',
     params: [{ wallet_snap: {[snapId]: { ...params,},},},],
   });
+  return true;
 };
 
 export const getSnap = async (version?: string): Promise<Snap | undefined> => {

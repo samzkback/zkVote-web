@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Breadcrumb, Layout, Menu } from 'antd';
 const { Header, Content, Sider } = Layout;
 import { Card, Col, Row } from 'antd';
@@ -7,6 +7,7 @@ import MainPage from '../components/layout/mainpage';
 import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNFT, mint_nft } from "../utils/vote";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { WalletContext } from '../contexts/WalletContext';
 const { Title } = Typography;
 declare const window: any;
 export default function Explore() {
@@ -14,8 +15,14 @@ const [group, setGroup] = useState<any>();
 const [idc , setIdc] = useState<any>();
 const [walletConnected, setWalletConnected] = useState(false);
 const router = useRouter();
+const { address, isSnapInstalled } = useContext(WalletContext)
+console.log('cur', isSnapInstalled)
+
+
 
 useEffect(() => {
+console.log('cur', isSnapInstalled)
+
     // Check if MetaMask is installed
     if (typeof window.ethereum !== 'undefined') {
       // Check if accounts are already available
@@ -34,8 +41,9 @@ useEffect(() => {
 
 // This effect will run only when the walletConnected state changes
 useEffect(() => {
+    console.log("updating", address, isSnapInstalled)
   // Check if the wallet is connected
-  if (walletConnected) {
+  if (address && isSnapInstalled) {
     const updateAndFetch = async () => {
       await updatePrivSeed('1');
       const idc = await getIdentityCommitment();
@@ -47,7 +55,7 @@ useEffect(() => {
     };
     updateAndFetch();
   }
-}, [walletConnected]);
+}, [address, isSnapInstalled]);
 
 useEffect(() => {
     console.log(group)

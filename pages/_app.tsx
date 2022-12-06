@@ -15,6 +15,8 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { useState } from "react";
+import { WalletContext } from "../contexts/WalletContext";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [chain.goerli],
@@ -50,12 +52,28 @@ const wagmiClient = createClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [address, setAddress] = useState<string | undefined>(undefined);
+  const [isSnapInstalled, setIsSnapInstalled] = useState<boolean | undefined>(
+    undefined
+  );
+  const [isConnected, setIsConnected] = useState<boolean | undefined>(undefined);
+
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider appInfo={demoAppInfo} chains={chains}> 
+      <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
+        <WalletContext.Provider value={{
+          address,
+          setAddress,
+          isSnapInstalled,
+          setIsSnapInstalled,
+          isConnected,
+          setIsConnected,
+        }}
+        >
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        </WalletContext.Provider>
       </RainbowKitProvider>
     </WagmiConfig>
   );
