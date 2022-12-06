@@ -13,11 +13,15 @@ export default function DisplayPollContent(props:any) {
     //write a handle choice function
     const handleChoice = (c: any) => {
         console.log("choice is", c);
-        setChoice(choice);
+        setChoice(c);
     }
+    useEffect(() => {
+        console.log("choice is", choice);
+    }, [choice]);
 
     const submitPoll = (groupId:number, pollId:number, msg:string) => {
         console.log("voting");
+        console.log("choice is", msg);
         voteInPoll(groupId, pollId, msg);
 
     }

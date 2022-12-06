@@ -8,8 +8,7 @@ export default function WrappedConnectButton () {
   const [idc, setIdc] = useState<any>();
   const [currentAccount, setCurrentAccount] = useState("");
   const { setAddress, setIsSnapInstalled } = useContext(WalletContext);
-
-
+  
   const connectMetaMask = async () => {
     try{
       const {ethereum } = window;
@@ -31,21 +30,6 @@ export default function WrappedConnectButton () {
   useEffect(() => {
     console.log("current account", currentAccount);
   }, [currentAccount]);
-
-  // useEffect(() => {
-  //   const updateAndFetch = async () => {
-  //     if(currentAccount){
-  //       await updatePrivSeed('1');
-  //       const idc = await getIdentityCommitment();
-  //       console.log('this is idc', idc)
-  //       setIdc(idc);
-  //     }
-  //   };
-  //   updateAndFetch();
-  // }, [currentAccount]);
-
-  
-  
   
   async function handleOnClick(){
     console.log("clicked");
@@ -53,11 +37,6 @@ export default function WrappedConnectButton () {
     setIsSnapInstalled(res);
     await connectMetaMask();
   }
-
-  // await updatePrivSeed('1');
-  // const idc = await getIdentityCommitment();
-  // console.log("idc", idc);
-  // setIdc(idc);
 
   useEffect(() => {
     console.log("idc yo ", idc)

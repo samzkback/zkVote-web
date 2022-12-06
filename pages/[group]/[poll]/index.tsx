@@ -6,7 +6,6 @@ import { Typography } from 'antd';
 import MainPageV2 from '../../../components/layout/mainpagev2';
 import Link from 'next/link';
 import DisplayPollContent from '../../../components/poll/displaypollcontent';
-import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNFT, mint_nft } from "../../../utils/vote";
 import { queryGroupPoll } from "../../../utils/thegraph";
 import DisplayPollStats from '../../../components/poll/displaypollstats';
 
@@ -23,8 +22,6 @@ export default function Poll(props:any) {
     const groupId = props.group;
     const numId = parseInt(groupId);
     const pollId = props.poll;
-    console.log("group id is ishifh", groupId)
-    console.log("poll id is ishifh", pollId)
     const [polls, setPolls] = useState<any>([]);
     const [poll, setPoll] = useState<any>([]);
 
