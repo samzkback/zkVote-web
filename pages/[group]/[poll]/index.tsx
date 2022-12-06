@@ -8,6 +8,7 @@ import Link from 'next/link';
 import DisplayPollContent from '../../../components/poll/displaypollcontent';
 import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNFT, mint_nft } from "../../../utils/vote";
 import { queryGroupPoll } from "../../../utils/thegraph";
+import DisplayPollStats from '../../../components/poll/displaypollstats';
 
 const { Title } = Typography;
 
@@ -53,7 +54,12 @@ export default function Poll(props:any) {
     
    <MainPage  >
     {poll &&
+    <>
     <DisplayPollContent groupId={numId} poll={poll} />
+    <div className='mt-10'>
+    <DisplayPollStats groupId={numId} poll={poll} />
+    </div>
+    </>
     }
    </MainPage>
         
