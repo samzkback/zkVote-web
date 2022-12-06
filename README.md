@@ -10,6 +10,7 @@ sequenceDiagram
 	
   U -->> F : click "connect"
   F -->> M : install snap to metamask
+  F -->> M : set identity "seed"
 
   U -->> F : click "Create Group (name, desc, icon asset(nft/token) request, asset address)"
   F -->> VC : Create Group Tx
@@ -33,7 +34,13 @@ sequenceDiagram
     M -->> M : generate Group Proof, with "Group Merkle Proof"
     M -->> M : generate Signal Proof 
   end
-  F -->> VC : votePollInGroup(rc, msg, groupId, pollId, group proof, signal proof)
+  alt using relayer ?
+    F -->> R : relayer "vote" tx
+    R -->> R : verify "vote" tx
+    R -->> VC : vote tx
+  else direct send onchain ?
+    F -->> VC : votePollInGroup(rc, msg, groupId, pollId, group proof, signal proof)
+  end
   VC -->> VC : check msg valid in Pool
   VC -->> VC : verify zkp proof
   F -->> VC : check "Vote Stats"
@@ -55,3 +62,7 @@ sequenceDiagram
   npm install
   npm run dev
 ```
+
+# TODO
+1. Privacy Protect of Ethereum Address   
+  offchain relayer VS EIP4337(still need realyer)
