@@ -244,7 +244,8 @@ export const voteInPoll = async (
   using_relayer = true
   ) =>
 {
-  await showMsg("generate ZKP for vote \"" + msg + "\" in Group " + group_id + " Poll " + poll_id)
+  const allow_zkp = await showMsg("generate ZKP for vote \"" + msg + "\" in Group " + group_id + " Poll " + poll_id)
+  if (!allow_zkp) return
 
   const idcs = await queryGroupMember(group_id)
   console.log("idcs : ", idcs)
@@ -259,6 +260,7 @@ export const voteInPoll = async (
   const signalProof = await getSignalProof(rand, msg, externalNullifier.toString()) as signalFullProof
   const soliditySignalProof : SolidityProof = packToSolidityProof(signalProof.proof) as SolidityProof
 
+  // TODO : snap_notificiation instead of snap_confirm
   await showMsg("ZKP Generated!!! Start Verify on-chain ")
 
   let tx_hash
