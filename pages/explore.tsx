@@ -8,87 +8,34 @@ import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNF
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { WalletContext } from '../contexts/WalletContext';
+import { useIdc } from '../hooks/useIdc';
+import { useWalletConnect } from '../hooks/useWalletConnect';
+import { useSnapConnect } from '../hooks/useSnapConnected';
 const { Title } = Typography;
 declare const window: any;
 export default function Explore() {
+const isWalletConnected = useSnapConnect();
+const isSnapInstalled = useWalletConnect();
+const idc = useIdc(isWalletConnected, isSnapInstalled);
 const [group, setGroup] = useState<any>();
-const [idc , setIdc] = useState<any>();
-const [walletConnected, setWalletConnected] = useState(false);
 const router = useRouter();
-const { address, isSnapInstalled } = useContext(WalletContext)
-console.log('cur', isSnapInstalled)
-
-
-
 useEffect(() => {
-console.log('cur', isSnapInstalled)
-
-    // Check if MetaMask is installed
-    if (typeof window.ethereum !== 'undefined') {
-      // Check if accounts are already available
-      if (window.ethereum.selectedAddress) {
-        // Accounts are already available, set the walletConnected state to true
-        setWalletConnected(true);
-      } else {
-        // Accounts are not available, set the walletConnected state to false
-        setWalletConnected(false);
-      }
-    } else {
-      // MetaMask is not installed, set the walletConnected state to false
-      setWalletConnected(false);
-    }
-  }, []);
-
-// This effect will run only when the walletConnected state changes
-useEffect(() => {
-    console.log("updating", address, isSnapInstalled)
-  // Check if the wallet is connected
-  if (address && isSnapInstalled) {
-    const updateAndFetch = async () => {
-      await updatePrivSeed('1');
-      const idc = await getIdentityCommitment();
-      console.log("im the idc", idc)
-      setIdc(idc);
-    //   const group = await groupAdminInfo();
-    //   setGroup(group);
-    //   console.log("group", group);
-    };
-    updateAndFetch();
-  }
-}, [address, isSnapInstalled]);
-
-useEffect(() => {
-    console.log(group)
-}, [group]);
-
-useEffect(() => {
-    console.log("<33333")
-    console.log("idc", idc)
-    console.log("group", group)
     if(idc){
         const fetchGroup = async () => {
             const group = await groupAdminInfo();
             setGroup(group);
-            console.log("group", group);
         }
         fetchGroup();
     }
-
-
 }, [idc]);
 
-console.log("is wallet connected", walletConnected);
-
-
+useEffect(() => {
+}, [group]);
 
 async function handleOnClick(groupId:any, idc:any, tokenAddress:string) {
-        console.log("checking if user has NFT");
-        console.log("token address", tokenAddress);
         const checkNFT = await hasNFT(tokenAddress);
         const userHasNFT = (checkNFT.toNumber()>0)
-        console.log("hasNFT", userHasNFT);
         if(!userHasNFT){
-            console.log("user does not have NFT");
             router.push(`/${groupId}/mint`)
         }else{
             await addMember(groupId,idc);

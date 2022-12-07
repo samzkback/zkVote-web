@@ -3,11 +3,18 @@ import { connectSnap } from '../../utils/snap';
 import { getIdentityCommitment, updatePrivSeed } from '../../utils/vote';
 import { useState } from 'react';
 import { WalletContext } from '../../contexts/WalletContext';
-
+import {useWalletConnect} from '../../hooks/useWalletConnect';
+import { getSnap } from '../../utils/snap';
+import { MetaMaskContext, MetamaskActions } from '../../contexts/MetamaskContext';
+import { useSnapConnect } from '../../hooks/useSnapConnected';
+import { useIdc } from '../../hooks/useIdc';
 export default function WrappedConnectButton () {
-  const [idc, setIdc] = useState<any>();
-  const [currentAccount, setCurrentAccount] = useState("");
-  const { setAddress, setIsSnapInstalled } = useContext(WalletContext);
+  const isWalletConnected = useWalletConnect();
+  console.log("isWalletConnected", isWalletConnected);
+  const isSnapInstalled = useSnapConnect();
+  console.log("isSnapInstalled", isSnapInstalled);
+  const idc = useIdc(isWalletConnected, isSnapInstalled);
+  console.log("idc", idc);
   
   const connectMetaMask = async () => {
     try{
@@ -16,30 +23,34 @@ export default function WrappedConnectButton () {
         alert("Please install metamask");
         return;
       }
-      const accounts = await ethereum.request({method: 'eth_requestAccounts'});
-      const account = accounts[0];
-      console.log("account", account);
-      setCurrentAccount(account);
-      setAddress(account);
+      await ethereum.request({method: 'eth_requestAccounts'});
     } catch (error) {
       console.log(error);
-
-
     }
   }
-  useEffect(() => {
-    console.log("current account", currentAccount);
-  }, [currentAccount]);
-  
+
+  const [state, dispatch] = useContext(MetaMaskContext);
+
   async function handleOnClick(){
-    console.log("clicked");
-    const res = await connectSnap();
-    setIsSnapInstalled(res);
-    await connectMetaMask();
+    try{
+      const res = await connectSnap();
+      await connectMetaMask();
+      const installedSnap = await getSnap();
+      console.log("installedSnap", installedSnap);
+      dispatch({
+        type: MetamaskActions.SetInstalled,
+        payload: installedSnap,
+      });
+
+    }catch(e){
+      console.log(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+
+    }
+  
   }
 
   useEffect(() => {
-    console.log("idc yo ", idc)
   }, [idc]);
   return (
     <>

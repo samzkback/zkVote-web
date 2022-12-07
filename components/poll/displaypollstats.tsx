@@ -4,15 +4,12 @@ import { voteInPoll, getPollVoteStat } from "../../utils/vote";
 export default function DisplayPollStats(props:any) {
     const {poll,groupId } = props;
     const numPollId = parseInt(poll.pollId);
-    console.log("poll is xxx", poll);
     useEffect(() => {
-        console.log("poll is", poll);
     }, [poll]);
 
   
     const [pollStats, setPollStats] = useState([]);
     useEffect(() => {
-        console.log("pollStats are", pollStats);
     }, [pollStats]);
 
     useEffect(() => {

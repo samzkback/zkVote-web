@@ -87,20 +87,9 @@ export default function NewPoll(props:any) {
       const endDate = watch("endDate");
       const description = watch("description");
       useEffect (() => {
-        console.log('yo');
-        console.log(getValues("startDate"));
-        console.log(getValues("endDate"));
-        console.log(getValues("choices"));
-        console.log(getValues("title"));
-        console.log(getValues("description"));
       }, [startDate, endDate, choices, title, description]);
 
   const onSubmit = () => {
-    console.log("publishing poll")  
-    console.log("choices", choices);
-    console.log("title", title);
-    console.log("description", description);
-    console.log('groupId', groupId);
     CreatePoll(numId, title, description, choices);
   }
 

@@ -34,11 +34,9 @@ export default function Poll(props:any) {
     }, [groupId]);
 
     useEffect(() => {
-        console.log("polls are ", polls);
         if(polls && polls.length>0){
         const poll = polls.filter((p:any) => p.pollId == pollId);
         setPoll(poll[0]);
-        console.log("poll is <333333", poll);
         }
 
     }, [polls]);

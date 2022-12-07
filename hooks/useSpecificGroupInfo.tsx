@@ -3,6 +3,5 @@ import { getIdentityCommitment, groupAdminInfo, updatePrivSeed, addMember, hasNF
 
 export function useSpecificGroupInfo(group:any,id:any){
     const spGroup = group.filter((g:any) => g.groupId == id);
-    console.log("spGroup is", spGroup)
   return spGroup[0];
 }

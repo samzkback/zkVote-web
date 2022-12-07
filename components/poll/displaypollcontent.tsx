@@ -4,24 +4,18 @@ import { voteInPoll } from "../../utils/vote";
 export default function DisplayPollContent(props:any) {
     const {poll,groupId } = props;
     const numPollId = parseInt(poll.pollId);
-    console.log("poll is xxx", poll);
     useEffect(() => {
-        console.log("poll is", poll);
     }, [poll]);
 
     const [choice, setChoice] = useState<any>([]);
     //write a handle choice function
     const handleChoice = (c: any) => {
-        console.log("choice is", c);
         setChoice(c);
     }
     useEffect(() => {
-        console.log("choice is", choice);
     }, [choice]);
 
     const submitPoll = (groupId:number, pollId:number, msg:string) => {
-        console.log("voting");
-        console.log("choice is", msg);
         voteInPoll(groupId, pollId, msg);
 
     }

@@ -30,7 +30,6 @@ export default function GroupSide(props:any) {
         }
     }, [idc]);
     useEffect(() => {
-        console.log("isMember", isMember)
     }, [isMember]);
 
 

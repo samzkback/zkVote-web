@@ -58,12 +58,6 @@ export default function Explore() {
       }, [image]);
 
     const onSubmit = () => {
-      console.log('submitting');
-      console.log(groupName)
-      console.log(groupDescription)
-      console.log(visibility)
-      console.log(tokenAddress)
-      console.log(image)
       CreateGroupWithAssetDemand(
         groupName,
         groupDescription,
