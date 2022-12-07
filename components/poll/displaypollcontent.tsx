@@ -29,9 +29,9 @@ export default function DisplayPollContent(props:any) {
                 {/* <p className='font-mono text-lg font-bold mb-4'>{poll.description}</p> */}
                 {poll.voteMsgs && poll.voteMsgs.length>0 && poll.voteMsgs.map((choice: any) => (
                     <button onClick={()=>handleChoice(choice)}>
-                    <div key={poll.pollId} className="flex flex-row border border-black border-2 px-48 py-4 mb-4">
-                        <p className='font-mono text-lg font-bold'>{choice}</p>
-                    </div>
+                    <button key={poll.pollId} className="flex flex-row border border-black border-2 w-full py-4 mb-4 visited:bg-violet-700 focus:ring focus:outline-none focus:ring-violet-300 hover:bg-violet-300">
+                        <p className='px-10 font-mono text-lg font-bold'>{choice}</p>
+                    </button>
                     </button>
                 ))}
                 </>

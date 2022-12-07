@@ -39,9 +39,9 @@ export default function DisplayPollStats(props:any) {
                 <p className='font-mono text-3xl font-bold mb-4'>Current Results</p>
                 {/* <p className='font-mono text-lg font-bold mb-4'>{poll.description}</p> */}
                 {pollStats.map((stat: any) => (
-                    <div key={poll.pollId} className="flex flex-row border border-black border-2 px-48 py-4 mb-4">
-                        <p className='font-mono text-lg font-bold'>{stat.choice}:{stat.stat.toString()}</p>
-                    </div>
+                    <button key={poll.pollId} className="flex flex-row border border-black border-2  py-4 mb-4">
+                        <p className='pl-10 font-mono text-lg font-bold'>{stat.choice}:{stat.stat.toString()}</p>
+                    </button>
                 ))}
                 </>
             }

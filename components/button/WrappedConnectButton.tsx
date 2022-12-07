@@ -51,7 +51,7 @@ export default function WrappedConnectButton () {
   }, [idc]);
   return (
     <>
-    {idc ? <button className='w-40 border border-black border-1 px-4 py-2 rounded-3xl bg-[#5FFF37]'><p className='trucate' style={{
+    {idc ? <button className='w-40 border border-black border-1 px-4 py-2 rounded-3xl bg-[#5FFF37]'><p className='trucate font-mono'  style={{
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',

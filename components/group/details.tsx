@@ -21,7 +21,21 @@ const Details = ({ register, preview }: { register: any, preview: any }) => {
             {...register("groupDescription")}
           />
         </div>
-        <div className="mt-4 mb-4 text-center flex justify-center">
+
+
+        <p className="font-mono text-lg font-bold mt-2">Upload Logo URL</p>
+        <div className="mt-2 flex justify-center">
+          <input
+              type="text"
+              id="logo"
+              className="w-full text-lg border border-2 border-black font-bold placeholder:text-lg placeholder:font-bold py-4 px-4 block bg-white focus:ring-indigo-500 focus:border-indigo-500"
+              {...register("imageLink")}            
+            />
+        </div>
+
+
+
+        {/* <div className="mt-4 mb-4 text-center flex justify-center">
           <label htmlFor="file-upload" className="custom-file-upload" style={{ cursor: "pointer" }}>
             <div className="h-40 w-40 my-10">
               {preview ? (
@@ -47,7 +61,7 @@ const Details = ({ register, preview }: { register: any, preview: any }) => {
               {...register("image")}
             />
           </label>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -13,16 +13,18 @@ import Visibility from '../components/group/visibility';
 import TokenSetup from '../components/group/token';
 import { useEffect } from 'react';
 import { CreateGroupWithAssetDemand, PRIVACY } from '../utils/vote';
-
+import { useRouter } from 'next/router';
 export interface CreateGroupFormInputs {
     tokenAddress: string;
     visibility: PRIVACY;
     groupName: string;
     groupDescription: string;
-    image: any;
+    // image: any;
+    imageLink: string;
   }
 export default function Explore() {
     const [step, setStep] = useState(0);
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -36,37 +38,40 @@ export default function Explore() {
           visibility: PRIVACY.ANYONE,
           groupName: "",
           groupDescription: "",
-          image: undefined,    
+          // image: undefined,    
         },
       });
     
     const [preview, setPreview] = useState<string>();
-    const image = watch("image");
+    // const image = watch("image");
     const tokenAddress = watch("tokenAddress");
     const visibility = watch("visibility");
     const groupName = watch("groupName");
     const groupDescription = watch("groupDescription");
+    const imageLink = watch("imageLink");
 
-    useEffect(() => {
-        if (image! && image![0]) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-              setPreview(reader.result as string);
-          };
-          reader.readAsDataURL(image[0]);
-        }
-      }, [image]);
+    // useEffect(() => {
+    //     if (image! && image![0]) {
+    //       const reader = new FileReader();
+    //       reader.onloadend = () => {
+    //           setPreview(reader.result as string);
+    //       };
+    //       reader.readAsDataURL(image[0]);
+    //     }
+    //   }, [image]);
 
     const onSubmit = () => {
       CreateGroupWithAssetDemand(
         groupName,
         groupDescription,
         visibility,
-        image,
+        // image,
+        imageLink,
         tokenAddress
 
       ).then(() => {
         console.log("Successfully created group!");
+        router.push("/explore");
       })
     }
 
