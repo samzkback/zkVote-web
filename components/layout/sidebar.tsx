@@ -2,9 +2,13 @@ import Link from 'next/link';
 import React, { useEffect } from 'react';
 import{useState } from 'react';
 import Item from './sideitem';
-
+import {useJoinedGroups } from '../../hooks/useJoinedGroups'
+import GroupItem from './groupitem';
+type Props = {
+    children: React.ReactNode;
+  };
 export default function SideBar() {
-    const [items, setItems] = useState<any>([]);
+    const joinedGroup = useJoinedGroups();
     const explore = {
         id: '0',
         title: 'Explore',
@@ -17,39 +21,15 @@ export default function SideBar() {
         icon: '/icons/create.png',
         link: '/create'
     }
-    const tempItems = [
-        {
-            id: '1',
-            title: 'ApeCoin DAO',
-            icon: 'https://s2.loli.net/2022/12/03/ojIKC4fVxFNp8rB.png',
-            link: '/1',
-        },
-        {
-            id: '2',
-            title: 'JuiceboxDAO',
-            icon: 'https://s2.loli.net/2022/12/03/fJgCGTadINuh6pq.png',
-            link: '/2',
-        },
-        {
-            id: '3',
-            title: 'CabinDAO',
-            icon: 'https://s2.loli.net/2022/12/03/xCMjeUfHzK5Wbsc.png',
-            link: '/3',
-        },
-    ];
-    
-
-    useEffect(()=>{
-        setItems(tempItems)
-    },[])
-
     return (
         <>
         <Item item={explore} />
-        {items&& items.map((item:any) => (
-            <div key={item.id}>
-                <Item item={item} />
+        {joinedGroup && joinedGroup.map((item:any) => (
+            <Link href={`/${item.groupId.toString()}`}>
+            <div key={item.groupId}>
+                <GroupItem item={item} />
             </div>
+            </Link>
         ))}
         <Item item={create} />
         

@@ -13,7 +13,6 @@ export default function DisplayPoll(props:any) {
         fetchPolls();
     }, [groupId]);
     useEffect(() => {
-        console.log("polls are ", polls);
     }, [polls]);
 
 

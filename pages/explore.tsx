@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { WalletContext } from '../contexts/WalletContext';
 import { useIdc } from '../hooks/useIdc';
 import { useWalletConnect } from '../hooks/useWalletConnect';
-import { useSnapConnect } from '../hooks/useSnapConnected';
+import { useSnapConnect } from '../hooks/useSnapInstalled';
 const { Title } = Typography;
 declare const window: any;
 export default function Explore() {

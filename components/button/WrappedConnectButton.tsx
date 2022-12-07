@@ -6,15 +6,12 @@ import { WalletContext } from '../../contexts/WalletContext';
 import {useWalletConnect} from '../../hooks/useWalletConnect';
 import { getSnap } from '../../utils/snap';
 import { MetaMaskContext, MetamaskActions } from '../../contexts/MetamaskContext';
-import { useSnapConnect } from '../../hooks/useSnapConnected';
+import { useSnapConnect } from '../../hooks/useSnapInstalled';
 import { useIdc } from '../../hooks/useIdc';
 export default function WrappedConnectButton () {
   const isWalletConnected = useWalletConnect();
-  console.log("isWalletConnected", isWalletConnected);
   const isSnapInstalled = useSnapConnect();
-  console.log("isSnapInstalled", isSnapInstalled);
   const idc = useIdc(isWalletConnected, isSnapInstalled);
-  console.log("idc", idc);
   
   const connectMetaMask = async () => {
     try{

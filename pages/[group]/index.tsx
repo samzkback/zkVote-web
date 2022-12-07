@@ -20,18 +20,18 @@ export async function getServerSideProps(context:any) {
 }
 
 export default function GroupHome(props:any) {
-    const [groupId, setGroupId] = useState<any>(props.group);
+    let groupId = props.group;
     const allGroup = useAllGroupInfo();
     const [currentGroup, setCurrentGroup] = useState<any>();
     useEffect(() => {
-        if(allGroup){
+          if(allGroup){
             const currentGroup = useSpecificGroupInfo(allGroup, groupId);
             setCurrentGroup(currentGroup);
         }
-    }, [allGroup]);
-
+    }, [groupId, allGroup]);
     useEffect(() => {
-    }, [groupId]);
+    }, [currentGroup, allGroup]);
+
 
   return (
     <>

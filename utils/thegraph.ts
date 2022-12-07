@@ -73,3 +73,23 @@ export async function queryVoteInPoll(
     })
     return data.data.poolVoteAddeds
 }
+
+export async function queryJoinedGroup(
+    identityCommitment : string
+) {
+    const query = `
+        query($identityCommitment: String) {
+            memberAddeds(where: {identityCommitment : $identityCommitment}) {
+                groupId
+            }
+        }
+    `
+
+    const data = await client.query({
+        query : gql(query),
+        variables: {
+            identityCommitment: identityCommitment,
+        }
+    })
+    return data.data.memberAddeds
+}

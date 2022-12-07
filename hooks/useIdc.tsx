@@ -18,7 +18,6 @@ export function useIdc(isWalletConnected:boolean, isSnapInstalled:boolean){
         checkIdc();
     }, [isWalletConnected, isSnapInstalled]);
     useEffect(() => {
-        console.log("idc", idc)
     }, [idc]);
     
     return idc;

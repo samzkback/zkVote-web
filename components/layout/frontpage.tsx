@@ -44,7 +44,7 @@ export default function FrontPage({ children }: Props) {
         <Layout style={{backgroundColor:'transparent'}}>
       <div className="flex">
         <div className="flex-row mr-6 flex-shrink-0">
-          <SideBar />
+          <SideBar/>
         </div>
         <div>{children}</div>
       </div>
