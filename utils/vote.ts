@@ -241,7 +241,7 @@ export const voteInPoll = async (
   group_id : number,
   poll_id : number,
   msg : string,
-  using_relayer = false
+  using_relayer = true
   ) =>
 {
   await showMsg("generate ZKP for vote \"" + msg + "\" in Group " + group_id + " Poll " + poll_id)
@@ -263,7 +263,7 @@ export const voteInPoll = async (
 
   let tx_hash
   if (using_relayer) {
-    const RELAYER_URL = "http://localhost:3030/vote"
+    const  RELAYER_URL = "https://api.defender.openzeppelin.com/autotasks/748b1bf7-0d19-42c6-8ee9-394fb125660e/runs/webhook/002f390f-abaa-4c26-8a82-0a472ef95931/GGHeJ1ZZBG1vxrqcAGrwhZ"
     const res = await axios.post(RELAYER_URL, {
       rc : rc,
       group_id : group_id,
@@ -271,10 +271,10 @@ export const voteInPoll = async (
       poll_id : poll_id,
       msg : msg,
       nullifierHash : signalProof.publicSignals.nullifierHash,
-      externalNullifier : externalNullifier,
+      externalNullifier : externalNullifier._hex,
       soliditySignalProof : soliditySignalProof,
     })
-    tx_hash = res.data.txhash
+    tx_hash = JSON.parse(res.data.result).txhash
   } else {
 
     let tx = await voteContract.votePollInGroup(
