@@ -1,4 +1,5 @@
-export const defaultSnapOrigin = `local:http://localhost:7070`;
+//export const defaultSnapOrigin = `https://zkvote-snap.vercel.app`;
+export const defaultSnapOrigin = `npm:zkvote-snap`;
 export type GetSnapsResponse = Record<string, Snap>;
 export type Snap = {
   permissionName: string;
@@ -19,7 +20,7 @@ export const connectSnap = async (
 ) => {
   await window.ethereum.request({
     method: 'wallet_enable',
-    params: [{ wallet_snap: {[snapId]: { ...params,},},},],
+    params: [{ wallet_snap: {[snapId]: { version: '0.4.0',},},},],
   });
   return true;
 };
