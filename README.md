@@ -49,10 +49,9 @@ sequenceDiagram
 
 # Setup Snap
 ```shell
-  git clone https://github.com/samzkback/zkvoteLegacy.git
-  nvm use
+  git clone git@github.com:p0x-labs/zkVote-snap.git
+  nvm use v16.16.0
   yarn install
-  cd packages/snap/
   yarn build;yarn start
 ```
 
