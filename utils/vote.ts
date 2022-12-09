@@ -28,16 +28,25 @@ import { BigNumber, ethers } from 'ethers';
 import { requestSnap } from './snap';
 import { queryGroupMember } from './thegraph';
 
-function getContract() {
+export function getVoteContract() {
   const provider = new ethers.providers.Web3Provider(window.ethereum)
   const signer = provider.getSigner(window.ethereum.selectedAddress)
   const voteContract = new ethers.Contract(VOTE_CONTRACT_ADDR, voteJson.abi, signer)
   return voteContract
 }
 
+function getStaticContract() {
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+  return new ethers.Contract(VOTE_CONTRACT_ADDR, voteJson.abi, provider)
+}
+
 let voteContract : ethers.Contract
+let voteSaticContract : ethers.Contract
 if (typeof window !== `undefined`) {
-  voteContract = getContract()
+  voteSaticContract = getStaticContract()
+  if (window.ethereum.selectedAddress != undefined) {
+    voteContract = getVoteContract()
+  }
 }
 
 export const sendHello = async () => {
@@ -119,7 +128,6 @@ export type GroupProps = {
     admin : string;
     members : string[];
     votes : string[];
-    identityCommitment : string;
     asset : string;
 }
 
@@ -127,20 +135,19 @@ export type GroupsProps = GroupProps[];
 
 export const groupAdminInfo = async() => {
   let groups : GroupsProps = []
-  const CUR_GROUP_ID = await voteContract.callStatic.GROUP_ID()
-  const START_GROUP_ID = 27
+  const CUR_GROUP_ID = await voteSaticContract.callStatic.GROUP_ID()
+  const START_GROUP_ID = 29
   for (let id = START_GROUP_ID; id <= CUR_GROUP_ID; id++) {
-    const onchainGroup = await voteContract.callStatic.groups(id)
+    const onchainGroup = await voteSaticContract.callStatic.groups(id)
     let group : GroupProps = {
       groupId : id,
       name : onchainGroup.name,
       description : onchainGroup.desc,
       icon : onchainGroup.icon,
       privacy : onchainGroup.privacy,
-      admin : await voteContract.callStatic.admins(id),
+      admin : await voteSaticContract.callStatic.admins(id),
       members : await queryGroupMember(id),
       votes : [],
-      identityCommitment : await getIdentityCommitment() as string,
       asset : onchainGroup.asset
     }
 

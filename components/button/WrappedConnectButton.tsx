@@ -1,6 +1,6 @@
 import React, { use, useContext, useEffect } from 'react';
 import { connectSnap } from '../../utils/snap';
-import { getIdentityCommitment, updatePrivSeed } from '../../utils/vote';
+import { getIdentityCommitment, getVoteContract, updatePrivSeed } from '../../utils/vote';
 import { useState } from 'react';
 import { WalletContext } from '../../contexts/WalletContext';
 import {useWalletConnect} from '../../hooks/useWalletConnect';
@@ -21,6 +21,7 @@ export default function WrappedConnectButton () {
         return;
       }
       await ethereum.request({method: 'eth_requestAccounts'});
+      getVoteContract()
     } catch (error) {
       console.log(error);
     }
